@@ -88,7 +88,7 @@
                             </div>
                         </li>
                         @foreach($data->attendance->all as $attKey => $attendance)
-                        @if(formatDate($attendance->att_date, 'y-m-d') != date('y-m-d'));
+                        @if(formatDate($attendance->att_date, 'y-m-d') != date('y-m-d'))
                         <li class="{{navigate($attendance->att_id, $data->attendance->current->att_id)}}">
                             <span class="att-num">{{prepZero($attKey + 2)}}</span>
                             <div class="right">
