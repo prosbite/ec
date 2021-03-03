@@ -111,21 +111,21 @@
 				<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
 				<ul class="page-sidebar-menu page-sidebar-menu-hover-submenu" data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
 					<li class="{{navigate('attendance',$nav[0])}} start">
-						<a href="{{route('attendance.today', ['sched'=>$sched_id])}}">
+						<a href="javascript:;">
 						<i class="icon-check" style="margin-bottom:5px;"></i>
 						<span class="title">Attendance</span>
 						<span class="arrow "></span>
 						</a>
-						<!-- <ul class="sub-menu">
+						<ul class="sub-menu">
 							<li class="{{navigate('today',$nav[1])}}">
-								<a href="">
+								<a href="{{route('attendance.today', ['sched'=>$sched_id])}}">
 								Check Attendance</a>
 							</li>
-							<li>
-								<a href="ecommerce_orders.html">
-								Previous Records</a>
+							<li class="{{navigate('matrix',$nav[1])}}">
+								<a href="{{route('attendance.matrix', ['sched'=>$sched_id, 'month'=>isset($month)?$month:null])}}">
+								Matrix</a>
 							</li>
-						</ul> -->
+						</ul>
 					</li>
 					
 					<li>

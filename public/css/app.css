@@ -40,6 +40,10 @@
   color: #2980b9;
 }
 
+.schedule-container .mid li.active {
+  background-color: orange !important;
+}
+
 .schedule-container .mid li .subj {
   display: block;
 }

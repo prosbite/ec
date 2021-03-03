@@ -54,4 +54,26 @@ class Attendance extends Model
         }
         return $count;
     }
+
+    public function month(){
+        return formatDate($this->att_date, 'm');
+    }
+
+    public function matrix($sched, $month){
+        $data = (object)[];
+        $data->all = $this->with('student_attendances', 'student_attendances.remarks')
+                    ->where('att_sched', $sched)->whereMonth('att_date', $month)
+                    ->orderBy('att_sched', 'ASC')
+                    ->get();
+
+        $months = $this->where('att_sched', $sched)->orderBy('att_date', 'DESC')->get()->groupBy(function($d) {
+                            return Carbon::parse($d->att_date)->format('m');
+                        });
+        foreach ($months as $key => $value) {
+            if(sizeof($value) > 0){
+                $data->months[] = $value[0];
+            }
+        }
+        return $data;
+    }
 }

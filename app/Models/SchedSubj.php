@@ -44,6 +44,7 @@ class SchedSubj extends Model
                 $data['current_sched'] = $data['sched'][0];
             }
         }
+        
         return $data;
     }
 

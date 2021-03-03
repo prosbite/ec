@@ -13,7 +13,7 @@
             <ul class="dropdown-menu">
                 @if((sizeof($data->sched)) > 0)
                     @foreach($data->sched as $sched)
-                        <li>
+                        <li class="{{navigate($sched->ss_id, $data->current_sched->ss_id)}}">
                             <a href="{{route('attendance.today',['sched'=>$sched->ss_id])}}">
                             <b><span class="subj">{{$sched->subject->subj_name}}</span></b>
                             <span class="sched">{{$sched->lec(true)}}</span>
@@ -26,12 +26,6 @@
                         </li>
                     @endforeach
                 @endif
-                <!-- <li>
-                    <a href="javascript:;">
-                    <span class="subj">Database Management 2</span>
-                    <span class="sched">WS 8:00 - 9:30 AM</span>
-                    </a>
-                </li> -->
             </ul>
         </div>
     </div>

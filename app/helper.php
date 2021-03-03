@@ -99,3 +99,7 @@ function prepAttendance($students){
 	}
 	return $students;
 }
+
+function fullMonth($month){
+	return formatDate('2020-'.$month.'-01', 'F');
+}

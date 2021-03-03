@@ -36,6 +36,9 @@ ul li {
             }
         }
         li {
+            &.active {
+                background-color: orange!important;
+            }
             .subj {
                 display: block;
             }

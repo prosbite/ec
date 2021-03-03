@@ -13,22 +13,20 @@ class AttendanceController extends Controller
 {
     
     public function index(Request $request, $id){
-        $data = (object)(new \App\models\SchedSubj())->setSched($request);
+        $data = $this->setSched($request);
         $data->attendance = (new \App\Models\Attendance())->today($data->current_sched->ss_id, 'lec', $id);
         
-        // dd($data);
         return view('attendance.solo')->with([
             'nav' => ['attendance', 'today'],
             'data' => $data,
             'sched_id' => $request->sched,
-            'att_id' => $request->att,
+            'att_id' => $request->id,
         ]);
     }
 
     public function today(Request $request){
-        $data = (object)(new \App\models\SchedSubj())->setSched($request);
+        $data = $this->setSched($request);
         $data->attendance = (new \App\Models\Attendance())->today($data->current_sched->ss_id, 'lec', $request->att);
-        // dd($data);
         return view('attendance.today')->with([
             'sched_id' => $request->sched,
             'nav' => ['attendance', 'today'],
@@ -37,7 +35,6 @@ class AttendanceController extends Controller
     }
 
     public function store(Request $request){
-        // dd($request->all());
         $att = new Attendance;
         $att->att_sched = $request->sched;
         $att->type = 'lec';
@@ -66,7 +63,6 @@ class AttendanceController extends Controller
     }
 
     public function update(Request $request){
-        // dd($request->all());
         foreach ($request->student as $key => $value) {
             $studAtt = StudentAttendance::where(['stud_id'=>$key, 'att_id'=>$request->att_id])->first();
             if($studAtt){
@@ -85,5 +81,25 @@ class AttendanceController extends Controller
         }
         Session::flash('success', 'Attendance has been updated');
         return redirect(route('attendance.today',['sched'=>$request->sched]));
+    }
+
+    public function matrix(Request $request){
+        $data = $this->setSched($request);
+        if(!$request->month){
+            $data->attendance = (new \App\Models\Attendance())->matrix($data->current_sched->ss_id, date('m'));
+        }else{
+            $data->attendance = (new \App\Models\Attendance())->matrix($data->current_sched->ss_id, $request->month);
+        }
+        
+        // foreach ($data->current_sched->subject_enrolled as $key => $value) {
+        //     dd($value->studFullName());
+        // }
+        // dd($data);
+        return view('attendance.matrix')->with([
+            'nav' => ['attendance', 'matrix'],
+            'data' => $data,
+            'month' => $request->month? $request->month:date('m'),
+            'sched_id' => $request->sched,
+        ]);
     }
 }
