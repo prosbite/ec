@@ -74,7 +74,7 @@
                         <ul class="dropdown-menu" role="menu">
                             @foreach($data->attendance->months as $keym => $valuem)
                             <li>
-                                <a href="{{route('attendance.matrix',['month'=>$valuem->month()])}}">
+                                <a href="{{route('attendance.matrix',['sched'=>$sched_id, 'month'=>$valuem->month()])}}">
                                 {{strtoupper(formatDate($valuem->att_date, 'F'))}} </a>
                             </li>
                             @endforeach

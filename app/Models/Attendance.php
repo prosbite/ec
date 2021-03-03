@@ -61,6 +61,7 @@ class Attendance extends Model
 
     public function matrix($sched, $month){
         $data = (object)[];
+        $data->months = [];
         $data->all = $this->with('student_attendances', 'student_attendances.remarks')
                     ->where('att_sched', $sched)->whereMonth('att_date', $month)
                     ->orderBy('att_sched', 'ASC')
