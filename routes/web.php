@@ -22,6 +22,9 @@ Route::post('attendance/store', [App\Http\Controllers\AttendanceController::clas
 Route::post('attendance/update', [App\Http\Controllers\AttendanceController::class, 'update'])->name('attendance.update')->middleware('auth');
 Route::get('home', [App\Http\Controllers\DashboardController::class, 'home'])->name('home')->middleware('auth');
 Route::get('activities', [App\Http\Controllers\ActivityController::class, 'index'])->name('activities')->middleware('auth');
+Route::get('activity/{id}/show', [App\Http\Controllers\ActivityController::class, 'show'])->name('activity.show')->middleware('auth');
+Route::get('activity/create', [App\Http\Controllers\ActivityController::class, 'create'])->name('activity.create')->middleware('auth');
+Route::post('activity/store', [App\Http\Controllers\ActivityController::class, 'store'])->name('activity.store')->middleware('auth');
 
 
 Auth::routes();

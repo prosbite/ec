@@ -100,6 +100,14 @@ function prepAttendance($students){
 	return $students;
 }
 
+function studentFullName($stud){
+	$data = $stud->lname . ", " . $stud->fname;
+	if(isset($stud->mname[0])){
+		return $data . " " . strtoupper($stud->mname)[0] . ".";
+	}
+	return $data;
+}
+
 function fullMonth($month){
 	return formatDate('2020-'.$month.'-01', 'F');
 }

@@ -82,7 +82,29 @@
 }
 
 .schedule-container .bot .student-count {
+  margin-right: 20px;
   color: #aaa;
+}
+
+.schedule-container .bot .quarter-dd {
+  color: #fff;
+  background-color: #27ae60;
+  padding: 1px 7px;
+  border-radius: 100px !important;
+  cursor: pointer;
+}
+
+.schedule-container .bot .quarter-dd:hover {
+  color: #fff;
+  background-color: #2ecc71;
+}
+
+.schedule-container .bot .quarter-dd:active {
+  background-color: #27ae60;
+}
+
+.schedule-container .bot .quarter-dd .fa-caret-down {
+  margin-left: 5px;
 }
 
 .attendance-list {
@@ -97,7 +119,7 @@
   background-color: #fafafa;
   padding: 15px;
   margin-bottom: 5px;
-  border-right: 3px solid #fafafa;
+  border-left: 3px solid #fafafa;
 }
 
 .attendance-list li:hover {
@@ -106,7 +128,7 @@
 
 .attendance-list li.active {
   background-color: #f2f2f2;
-  border-right: 3px solid #2980b9;
+  border-left: 3px solid #2980b9;
 }
 
 .attendance-list li .att-num {

@@ -128,14 +128,14 @@
 						</ul>
 					</li>
 					
-					<li>
+					<li class="{{navigate('classrecord',$nav[0])}}">
 						<a href="javascript:;">
 						<i class="icon-book-open" style="margin-bottom:5px;"></i>
 						<span class="title">Class Record</span>
 						<span class="arrow "></span>
 						</a>
 						<ul class="sub-menu">
-							<li>
+							<li class="{{navigate('activities',$nav[1])}}">
 								<a href="{{route('activities', ['sched'=>$sched_id])}}">
 								Activities</a>
 							</li>

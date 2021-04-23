@@ -133,7 +133,7 @@
         </div>
     </div>
     @if($activity)
-    <!-- <div class="col-md-8">
+    <div class="col-md-8">
         <div class="portlet light tasks-widget">
             <div class="portlet-title">
                 <div class="caption">
@@ -154,18 +154,24 @@
                         <th>Score</th>
                     </thead>
                     <tbody>
+                        @foreach($data->current_sched->subject_enrolled as $key => $enrolled)
                         <tr>
-                            <td>01</td>
-                            <td>Ricaforte, James D.</td>
+                            <td>{{prepZero($key + 1)}}</td>
+                            <td>{{studentFullName($enrolled->stud_sch_info->stud_per_info)}}</td>
                             <td>
-                                <span>24</span>/30
+                                @foreach($data->activity->activity_grades as $agrades)
+                                    @if($agrades->student_id == $enrolled->stud_sch_info->ssi_id)
+                                        <span>{{$agrades->score}}</span>/{{$data->activity->overall_score}}
+                                    @endif
+                                @endforeach
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-    </div> -->
+    </div>
     @endif
 </div>
 

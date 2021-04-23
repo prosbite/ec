@@ -9,6 +9,8 @@ use Auth;
 class SchedSubj extends Model
 {
     use HasFactory;
+    const COLLEGE = 'College';
+    const SH = 'Senior High';
     protected $table = 'curriculum_final.sched_subj';
     protected $primaryKey = 'ss_id';
     protected $sched;
