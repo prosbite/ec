@@ -198,3 +198,9 @@
   background-color: #f1c40f;
 }
 
+.grade-table th, .grade-table td {
+	padding: 2px!important;
+	text-align: center;
+	font-size: 14px;
+}
+

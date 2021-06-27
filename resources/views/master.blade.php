@@ -140,7 +140,7 @@
 								Activities</a>
 							</li>
 							<li>
-								<a href="ecommerce_orders.html">
+								<a href="{{route('grades', ['sched'=>$sched_id])}}">
 								Grading</a>
 							</li>
 						</ul>

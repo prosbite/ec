@@ -38,6 +38,7 @@ class SchedSubj extends Model
         $data = [];
         $data['current_sched'] = null;
         $data['sched'] = (new \App\models\SchedSubj())->mySched(Auth::user()->employment_id);
+        // dd($data['sched']);
         if(isset($request->sched)){
             $data['current_sched'] = (new \App\models\SchedSubj())->findSched($request->sched);
             $data['current_sched']->subject_enrolled = $this->studentSort((array)$data['current_sched']->subject_enrolled);
