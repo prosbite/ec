@@ -26,8 +26,7 @@ class PeriodicSchedule extends Model
             }
         }else{
             $data->current = $this->find($quarter);
-        }
-      
+        }    
         return (array)$data;
     }
 

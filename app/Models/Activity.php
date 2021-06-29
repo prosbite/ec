@@ -25,7 +25,7 @@ class Activity extends Model
         return $this->with('activityType')->where('ss_id', $sched->ss_id)->where('quarter', $quarter)->get();
     }
 
-    public function activitiesWidthGrades($request, $sched, $quarter){
+    public function activitiesWithGrades($request, $sched, $quarter){
         if($request->sched){
             return $this->with('activityType', 'activity_grades')->where('ss_id', $request->sched)->where('quarter', $quarter)->get();
         }

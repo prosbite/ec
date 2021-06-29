@@ -65,29 +65,20 @@
                 </button>
                 <span type="button" data-toggle="dropdown"><i class="fa fa-clock-o"></i>{{$data->quarter['current']->sched_name}} <i class="fa fa-caret-down"></i></span>
                 <ul class="dropdown-menu" role="menu">
-                    @foreach($data->quarter['quarters'] as $quarter)
+                    @foreach($data->quarter['quarters'] as $squarter)
                     <li>
-                        <a href="{{route('grades',['sched'=>$sched_id,'quarter'=>$quarter->psched_id])}}">
-                        {{$quarter->sched_name}} </a>
+                        <a href="{{route('grades',['sched'=>$sched_id,'quarter'=>$squarter->psched_id])}}">
+                        {{$squarter->sched_name}} </a>
                     </li>
                     @endforeach
-                    <!-- <li>
-                        <a href="javascript:;">
-                        Another action </a>
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                        Something else here </a>
-                    </li>
-                    <li class="divider">
-                    </li>
-                    <li>
-                        <a href="javascript:;">
-                        Separated link </a>
-                    </li> -->
                 </ul>
             </div>
         </div>
+        @if(!$showFinal)
+        <a href="{{route('grades',['sched'=>$data->current_sched->ss_id, 'quarter'=>$quarter, 'show'=>'final'])}}" style="margin-left:auto">Show Final Grade</a>
+        @else
+        <a href="{{route('grades',['sched'=>$data->current_sched->ss_id, 'quarter'=>$quarter])}}" style="margin-left:auto">Show Quarterly Grade</a>
+        @endif
     </div>
 </div>
 @endif
@@ -97,6 +88,38 @@
 <!-- /////////////////////////////// LIST OF GRADES /////////////////////////////////// -->
 <div class="row">
     <div class="col-md-12">
+        @if($showFinal)
+        <table class="table table-bordered grade-table">
+            <thead>
+                <th>#</th>
+                <th>Learner's Name</th>
+                <th>First Quarter</th>
+                <th>Second Quarter</th>
+                <th>Third Quarter</th>
+                <th>Fourth Quarter</th>
+                <th>Initial Grade</th>
+                <th>Final Grade</th>
+            </thead>
+            <tbody>
+                @foreach($data->current_sched->subject_enrolled as $key => $enrolled)
+                <tr>
+                    <td>{{prepZero($key + 1)}}</td>
+                    <td>{{studentFullName($enrolled->stud_sch_info->stud_per_info)}}</td>
+                    @foreach($data->finalGrade as $fkey => $fvalue)
+                        @if($fvalue->student_id == $enrolled->ssi_id)
+                            <td>{{$fvalue->first_quarter}}</td>
+                            <td>{{$fvalue->second_quarter}}</td>
+                            <td>{{$fvalue->third_quarter}}</td>
+                            <td>{{$fvalue->fourth_quarter}}</td>
+                            <td>{{calcFinalGrade($fvalue)}}</td>
+                            <td>{{transmuteGrade(calcFinalGrade($fvalue))}}</td>
+                        @endif
+                    @endforeach
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        @else
         <table class="table table-bordered grade-table">
             <tbody>
                 <tr>
@@ -142,7 +165,7 @@
                     <td style="font-size:10px;text-align:center;">HIGHEST POSSIBLE SCORE</td>
                     <?php $wwCount = 0; $ptCount = 0; ?>
                     @foreach($data->activities as $akey => $avalue)
-                        @if($avalue->activity_type == 8)
+                        @if($avalue->activity_type == 8 || $avalue->activity_type == 11)
                         <?php $wwCount++; ?>
                             <td>{{$avalue->overall_score}}</td>
                         @endif
@@ -159,12 +182,12 @@
                     <td>50</td>
                     <td>60</td>
                     <td>70</td> -->
+                    <td>{{$data->tl['ww']}}</td>
                     <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
+                    <td>{{$data->ws['ww']}}%</td>
 
                     @foreach($data->activities as $akey => $avalue)
-                        @if($avalue->activity_type == 9)
+                        @if($avalue->activity_type == 9 || $avalue->activity_type == 12)
                         <?php $ptCount++; ?>
                             <td>{{$avalue->overall_score}}</td>
                         @endif
@@ -174,13 +197,13 @@
                     @for($i = 0; $i < 7 - $ptCount; $i++ )
                         <td style="color:#aaaaaa;">0</td>
                     @endfor
+                    <td>{{$data->tl['pt']}}</td>
                     <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
+                    <td>{{$data->ws['pt']}}%</td>
 
-                    <td>10</td>
-                    <td>100</td>
-                    <td>100</td>
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
                     <td>100%</td>
                     <td>100</td>
                 </tr>
@@ -190,7 +213,7 @@
                     <td style="text-align:left;">{{studentFullName($enrolled->stud_sch_info->stud_per_info)}}</td>
                     
                     @foreach($data->activities as $sakey => $savalue)
-                        @if($savalue->activity_type == 8)
+                        @if($savalue->activity_type == 8 || $savalue->activity_type == 11)
                             @foreach($savalue->activity_grades as $sagkey => $sagvalue)
                                 @if($sagvalue->student_id == $enrolled->stud_sch_info->ssi_id)
                                     <td>{{$sagvalue->score}}</td>
@@ -202,12 +225,17 @@
                     @for($i = 0; $i < 7 - $wwCount; $i++ )
                         <td style="color:#aaaaaa;">0</td>
                     @endfor
-                    <td>25</td>
-                    <td>25</td>
-                    <td>25</td>
+                    <!-- Student total ww score -->
+                    @foreach($data->stud_tl as $key4 => $value4)
+                        @if($value4->student_id == $enrolled->stud_sch_info->ssi_id)
+                            <td>{{$value4->ww['tl']}}</td>
+                            <td>{{$value4->ww['ps']}}</td>
+                            <td>{{$value4->ww['ws']}}</td>
+                        @endif
+                    @endforeach
 
                     @foreach($data->activities as $sakey => $savalue)
-                        @if($savalue->activity_type == 9)
+                        @if($savalue->activity_type == 8 || $savalue->activity_type == 12)
                             @foreach($savalue->activity_grades as $sagkey => $sagvalue)
                                 @if($sagvalue->student_id == $enrolled->stud_sch_info->ssi_id)
                                     <td>{{$sagvalue->score}}</td>
@@ -220,10 +248,29 @@
                     @for($i = 0; $i < 7 - $ptCount; $i++ )
                         <td style="color:#aaaaaa;">0</td>
                     @endfor
+
+                    <!-- Student total ww score -->
+                    @foreach($data->stud_tl as $key4 => $value4)
+                        @if($value4->student_id == $enrolled->stud_sch_info->ssi_id)
+                            <td>{{$value4->pt['tl']}}</td>
+                            <td>{{$value4->pt['ps']}}</td>
+                            <td>{{$value4->pt['ws']}}</td>
+                        @endif
+                    @endforeach
+                    <td>0</td>
+                    <td>0</td>
+                    <td>0</td>
+                    @foreach($data->stud_tl as $key4 => $value4)
+                        @if($value4->student_id == $enrolled->stud_sch_info->ssi_id)
+                            <td>{{$value4->ww['ws'] + $value4->pt['ws']}}</td>
+                            <td>{{transmuteGrade($value4->ww['ws'] + $value4->pt['ws'])}}</td>
+                        @endif
+                    @endforeach
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        @endif
     </div>
 </div>
 
