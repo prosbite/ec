@@ -34,6 +34,18 @@ class ActivityController extends Controller
         ]);
     }
 
+    public function edit(Request $request){
+        $data = (object)(new \App\models\SchedSubj())->setSched($request);
+        $data->activity_type = (new \App\models\ActivityType())->activityTypes($data->current_sched->subject->subj_type);
+        $data->quarter = (new \App\models\PeriodicSchedule())->byDepartment($data->current_sched->subject->subj_type);
+        // dd($data);
+        return view('classrecord.create')->with([
+            'nav' => ['classrecord', 'create'],
+            'data' => $data,
+            'sched_id' => $request->sched,
+        ]);
+    }
+
     public function store(Request $request){
         // dd($request->all());
         $activity = new \App\models\Activity;

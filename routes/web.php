@@ -25,6 +25,7 @@ Route::get('activities', [App\Http\Controllers\ActivityController::class, 'index
 Route::get('activity/{id}/show', [App\Http\Controllers\ActivityController::class, 'show'])->name('activity.show')->middleware('auth');
 Route::get('activity/create', [App\Http\Controllers\ActivityController::class, 'create'])->name('activity.create')->middleware('auth');
 Route::post('activity/store', [App\Http\Controllers\ActivityController::class, 'store'])->name('activity.store')->middleware('auth');
+Route::get('activity/{id}/edit', [App\Http\Controllers\ActivityController::class, 'edit'])->name('activity.edit')->middleware('auth');
 Route::get('grades', [App\Http\Controllers\GradesController::class, 'index'])->name('grades')->middleware('auth');
 
 Auth::routes();

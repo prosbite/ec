@@ -142,6 +142,8 @@
                     <span class="caption-helper"></span>
                 </div>
                 <div class="actions">
+                    <a class="btn btn-circle btn-icon-only btn-default" href="javascript:;" data-original-title="" title=""><i class="fa fa-pencil"></i>
+                    </a>
                     <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title="">
                     </a>
                 </div>
